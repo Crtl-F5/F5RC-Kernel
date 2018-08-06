@@ -12,5 +12,9 @@
     ".project": true
   },
   "C_Cpp.default.configurationProvider": "vscode-wpilib",
-  "wpilib.online": true
+  "wpilib.online": true,
+  "files.associations": {
+    "system_error": "cpp",
+    "xtr1common": "cpp"
+  }
 }
