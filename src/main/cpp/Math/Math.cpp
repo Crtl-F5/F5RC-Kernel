@@ -10,5 +10,10 @@ namespace Math
         return (v - a) / (b - a);
     }
 
+    inline float Clamp(float min, float max, float v)
+    {
+        return (v > max) ? max : ((v < min) ? min : v);
+    }
+
     const float PI = 3.14159265359;
 }

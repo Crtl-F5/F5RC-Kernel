@@ -2,6 +2,29 @@
 
 namespace Curves::Math
 {
+    Math::Vector2 Arc::getValue(float t)
+    {
+        Math::Vector2 output;
+        output.x = cmath::cos(Math::Lerp(startAngle, endAngle, t)) * radius + centre.x;
+        output.y = cmath::sin(Math::Lerp(startAngle, endAngle, t)) * radius + centre.y;
+        return output;
+    }
+
+    float getValueInverse(Math::Vector2 point)
+    {
+        return (point.y > centre.y) ? Math::LerpInverse(startAngle, endAngle, Math::acos((point.x - centre.x) / radius)) : Math::LerpInverse(startAngle, endAngle, 2 * Math::Pi - Math::acos((point.x - centre.x) / radius));
+    }
+
+    float Arc::getDerivative(float t)
+    {
+        return (Math::Lerp(startAngle, endAngle, t) + 1.5 * Math::Pi) % (2 * Math::Pi);
+    }
+
+    float getNearestPoint(Math::Vector2 point)
+    {
+        return Math::Clamp(0, 1, getValueInverse(point));
+    }
+
     class Arc : public Curve
     {
         public:
@@ -16,34 +39,4 @@ namespace Curves::Math
         float startAngle;
         float endAngle;
     };
-
-    Math::Vector2 Arc::getValue(float t)
-    {
-        Math::Vector2 output;
-        output.x = cmath::cos(Math::Lerp(startAngle, endAngle, t)) * radius + centre.x;
-        output.y = cmath::sin(Math::Lerp(startAngle, endAngle, t)) * radius + centre.y;
-        return output;
-    }
-
-    float getValueInverse(Math::Vector2 point)
-    {
-        if (point.y > centre.y) 
-        {
-            return Math::LerpInverse(startAngle, endAngle, Math::acos((point.x - centre.x) / radius));
-        }
-
-        else 
-        {
-            return Math::LerpInverse(startAngle, endAngle, 2 * Math::Pi - Math::acos((point.x - centre.x) / radius));
-        }
-    }
-
-    float Arc::getDerivative(float t)
-    {
-        return (Math::Lerp(startAngle, endAngle, t) + 1.5 * Math::Pi) % (2 * Math::Pi);
-    }
-
-    float getNearestPoint(Math::Vector2 point)
-    {
-    }
 }
