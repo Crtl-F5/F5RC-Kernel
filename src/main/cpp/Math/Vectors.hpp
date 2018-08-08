@@ -1,4 +1,4 @@
-namespace Math
+namespace MathExtensions
 {
     struct Vector2
     {

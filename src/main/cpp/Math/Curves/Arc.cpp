@@ -1,7 +1,16 @@
 #include <cmath>
+#include <Arc.hpp>
 
-namespace Curves::Math
+namespace Curves::MathExtensions
 {
+    Arc::Arc(Math::Vector2 centre, float radius, float startAngle, float endAngle)
+    {
+        this->centre = centre;
+        this->radius = radius;
+        this->startAngle = startAngle;
+        this->endAngle = endAngle;
+    }
+
     Math::Vector2 Arc::getValue(float t)
     {
         Math::Vector2 output;
@@ -24,19 +33,4 @@ namespace Curves::Math
     {
         return Math::Clamp(0, 1, getValueInverse(point));
     }
-
-    class Arc : public Curve
-    {
-        public:
-        Math::Vector2 getValue(float t);
-        float getValueInverse(Math::Vector2 point);
-        float getDerivative(float t);
-        float getNearestPoint(Math::Vector2 point);
-
-        private:
-        Math::Vector2 centre;
-        float radius;
-        float startAngle;
-        float endAngle;
-    };
 }

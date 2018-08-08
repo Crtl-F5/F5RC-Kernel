@@ -15,6 +15,11 @@
   "wpilib.online": true,
   "files.associations": {
     "system_error": "cpp",
-    "xtr1common": "cpp"
-  }
+    "xtr1common": "cpp",
+    "type_traits": "cpp",
+    "xlocale": "cpp",
+    "limits": "cpp",
+    "string": "cpp"
+  },
+  "cSpell.language": "en-GB"
 }
