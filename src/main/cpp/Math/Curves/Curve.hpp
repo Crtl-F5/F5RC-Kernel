@@ -1,3 +1,4 @@
+#pragma once
 #include <Vectors.hpp>
 
 namespace Math::Curves

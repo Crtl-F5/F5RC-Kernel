@@ -1,3 +1,4 @@
+#pragma once
 #define MinorArc false
 #define MajorArc true
 typedef ArcType bool;

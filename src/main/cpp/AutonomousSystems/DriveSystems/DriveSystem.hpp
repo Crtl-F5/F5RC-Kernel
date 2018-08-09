@@ -1,3 +1,4 @@
+#pragma once
 #include <Vectors.hpp>
 #include <Curve.hpp>
 #include <AutonomousSystem.hpp>
