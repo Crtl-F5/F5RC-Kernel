@@ -1,7 +1,7 @@
 #pragma once
 #include <Vectors.hpp>
 
-namespace Math::Curves
+namespace MathExtensions::Curves
 {
     class Curve
     {

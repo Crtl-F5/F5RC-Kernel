@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstdlib>
 #include <Arc.hpp>
 
 namespace Curves::MathExtensions
@@ -29,8 +30,13 @@ namespace Curves::MathExtensions
         return (Math::Lerp(startAngle, endAngle, t) + 1.5 * Math::Pi) % (2 * Math::Pi);
     }
 
-    float getNearestPoint(Math::Vector2 point)
+    float Arc::getNearestPoint(Math::Vector2 point)
     {
         return Math::Clamp(0, 1, getValueInverse(point));
+    }
+
+    float Arc::getLength(float t)
+    {
+        return (endAngle - startAngle) * radius; 
     }
 }

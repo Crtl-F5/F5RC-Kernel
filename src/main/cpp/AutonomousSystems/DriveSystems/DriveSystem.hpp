@@ -2,6 +2,7 @@
 #include <Vectors.hpp>
 #include <Curve.hpp>
 #include <AutonomousSystem.hpp>
+#include <MathExtensions>
 
 namespace AutonomousSystems::DriveSystems
 {
@@ -13,12 +14,15 @@ namespace AutonomousSystems::DriveSystems
         short GetStatus();
 
         protected:
-        void BaseUpdate();
-        void BaseDeconstruct();
-        Math::Vector2 GetPosition();
+        virtual void BaseUpdate(float speed, float turnPower, float targetHeading);
+        virtual void BaseDeconstruct();
+        virtual Math::Vector2 BaseGetPosition();
 
         private:
         Curve* path;
         Function* speedMap;
+        Function* bearingMap;
+
+        MathExtensions::PIDController devianceCorrection;
     };
 }
