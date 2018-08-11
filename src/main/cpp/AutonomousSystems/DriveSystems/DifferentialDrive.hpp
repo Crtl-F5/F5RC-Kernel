@@ -2,9 +2,9 @@
 #include <DriveSystem.hpp>
 #include <Vectors.hpp>
 #include <PIDController.hpp>
-#include <encoder.h>
 #include <HardwareConfig.hpp>
-#include <GenericMotor>
+#include <GenericMotor.hpp>
+#include <GenericNonBinarySensor.hpp>
 
 namespace AutonomousSystems::DriveSystems
 {
@@ -14,18 +14,17 @@ namespace AutonomousSystems::DriveSystems
         public:
         DifferentialDrive();
         ~DifferentialDrive();
-        void BaseUpdate(float basePower, float headingPower, float bearingPower);
-        void BaseClear();
-        Math::Vector2 BaseGetPosition();
+        void BaseUpdate(float basePower, float headingPower, float bearingPower) override;
+        void BaseClear() override;
 
         private:
-        frc::encoder LHSEncoder;
-        frc::encoder RHSEncoder;
+        HardwareInterfaces::GenericNonBinarySensor* LHSEncoder;
+        HardwareInterfaces::GenericNonBinarySensor* RHSEncoder;
         float lastLHSDistance;
         float lastRHSDistance;
 
-        GenericMotor motorLHS;
-        GenericMotor motorRHS;
+        HardwareInterfaces::GenericMotor* motorLHS;
+        HardwareInterfaces::GenericMotor* motorRHS;
 
         float wheelSpacing;
     };

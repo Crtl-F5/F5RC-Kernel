@@ -10,10 +10,10 @@ namespace AutonomousSystems::DriveSystems
     class DriveSystem : AutonomousSystem
     {
         public:
-        void ReadCommand(unsigned char[] data, int* index);
-        void Clear();
-        void Update();
-        short GetStatus();
+        void ReadCommand(unsigned char[] data, int* index) override;
+        void Clear() override;
+        void Update() override;
+        short GetStatus() override;
 
         protected:
         virtual void BaseUpdate(float basePower, float headingPower, float bearingPower);

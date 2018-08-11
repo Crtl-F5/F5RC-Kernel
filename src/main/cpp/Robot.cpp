@@ -12,13 +12,15 @@
 #include <SmartDashboard/SmartDashboard.h>
 #include <Timer.h>
 
-Robot::Robot() {
+Robot::Robot() 
+{
   // Note SmartDashboard is not initialized here, wait until RobotInit() to make
   // SmartDashboard calls
   m_robotDrive.SetExpiration(0.1);
 }
 
-void Robot::RobotInit() {
+void Robot::RobotInit() 
+{
   m_chooser.AddDefault(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddObject(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
