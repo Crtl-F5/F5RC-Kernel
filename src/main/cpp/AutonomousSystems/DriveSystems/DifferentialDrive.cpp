@@ -1,6 +1,7 @@
 #pragma once
 #include <DriveSystem.hpp>
 #include <algorithm>
+#include <math.h>
 
 namespace AutonomousSystems::DriveSystems
 {
@@ -11,8 +12,14 @@ namespace AutonomousSystems::DriveSystems
     {
         float powerTweak = std::max(1, std::max(abs(basePower + headingPower), abs(basePower - headingPower)));
         motorLHS.set((basePower + headingPower) / powerTweak);
-        motorLHS.set((basePower - headingPower) / powerTweak);
-        //TODO: Add position and rotation update
+        motorRHS.set((basePower - headingPower) / powerTweak);
+        float theta = (LHSEncoder.getDistance() - lastLHSDistance - RHSEncoder.getDistance() + lastRHSDistance) / wheelSpacing;
+        float diagonalDistance = ((LHSEncoder.getDistance() - lastLHSDistance) / theta - wheelSpacing / 2) * sqrt(2 * (1 - cos(theta)));
+        float phi = theta / 2 - rotation;
+
+        rotation -= theta;
+        position.x += diagonalDistance * cos(phi);
+        position.y += diagonalDistance * sin(phi);
     }
 
     void DifferentialDrive::BaseClear()

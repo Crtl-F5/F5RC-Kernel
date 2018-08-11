@@ -54,7 +54,8 @@
     "*.tcc": "cpp",
     "cctype": "cpp",
     "clocale": "cpp",
-    "cwctype": "cpp"
+    "cwctype": "cpp",
+    "complex": "cpp"
   },
   "cSpell.language": "en-GB"
 }

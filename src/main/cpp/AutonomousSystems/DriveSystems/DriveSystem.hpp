@@ -3,6 +3,7 @@
 #include <Curve.hpp>
 #include <AutonomousSystem.hpp>
 #include <MathExtensions>
+#include <time.h>
 
 namespace AutonomousSystems::DriveSystems
 {
@@ -19,8 +20,14 @@ namespace AutonomousSystems::DriveSystems
         virtual void BaseClear();
 
         MathExtensions::Vector2 position;
+        MathExtensions::Vector2 lastPostion;
         float heading;
+        float bearing;
         private:
+        float completion;
+        clock_t startTime;
+        clock_t earliestEndTime;
+        
         Curve* path;
         Function* speedMap;
         Function* bearingMap;

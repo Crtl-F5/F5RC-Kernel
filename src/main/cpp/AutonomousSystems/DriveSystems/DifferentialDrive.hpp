@@ -27,7 +27,6 @@ namespace AutonomousSystems::DriveSystems
         GenericMotor motorLHS;
         GenericMotor motorRHS;
 
-        float distancePerEncoderPulse;
         float wheelSpacing;
     };
 }

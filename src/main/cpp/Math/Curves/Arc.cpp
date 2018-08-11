@@ -1,9 +1,13 @@
 #include <cmath>
 #include <cstdlib>
 #include <Arc.hpp>
+#include <MathExtensions.hpp>
 
 namespace Curves::MathExtensions
 {
+    Arc::Arc() {}
+    Arc::~Arc() {}
+
     Arc::Arc(Math::Vector2 centre, float radius, float startAngle, float endAngle)
     {
         this->centre = centre;
@@ -20,23 +24,28 @@ namespace Curves::MathExtensions
         return output;
     }
 
-    float getValueInverse(Math::Vector2 point)
+    float getValueInverse(MathExtensions::Vector2 point)
     {
-        return (point.y > centre.y) ? Math::LerpInverse(startAngle, endAngle, Math::acos((point.x - centre.x) / radius)) : Math::LerpInverse(startAngle, endAngle, 2 * Math::Pi - Math::acos((point.x - centre.x) / radius));
+        return (point.y > centre.y) ? MathExtensions::LerpInverse(startAngle, endAngle, Math::acos((point.x - centre.x) / radius)) : MathExtensions::LerpInverse(startAngle, endAngle, 2 * Math::Pi - Math::acos((point.x - centre.x) / radius));
     }
 
     float Arc::getDerivative(float t)
     {
-        return (Math::Lerp(startAngle, endAngle, t) + 1.5 * Math::Pi) % (2 * Math::Pi);
+        return (MathExtensions::Lerp(startAngle, endAngle, t) + 1.5 * Math::Pi) % (2 * Math::Pi);
     }
 
-    float Arc::getNearestPoint(Math::Vector2 point)
+    float Arc::getNearestPoint(MathExtensions::Vector2 point)
     {
-        return Math::Clamp(0, 1, getValueInverse(point));
+        return MathExtensions::Clamp(0, 1, getValueInverse(point));
     }
 
     float Arc::getLength(float t)
     {
         return (endAngle - startAngle) * radius; 
+    }
+
+    float Arc::getCompletion(MathExtensions::Vector2 position, float heading)
+    {
+        return getNearestPoint(position);
     }
 }

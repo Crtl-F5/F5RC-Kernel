@@ -12,6 +12,7 @@ namespace MathExtensions::Curves
         float getDerivative(float t);
         float getNearestPoint(MathExtensions::Vector2 point);
         float getLength(float t);
+        float getCompletion(MathExtensions::Vector2 point, float heading);
 
         private:
         MathExtensions::Vector2 centre;
