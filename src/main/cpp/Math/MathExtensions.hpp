@@ -5,9 +5,9 @@ typedef ArcType bool;
 
 namespace MathExtensions
 {
-    float Lerp(float a, float b, float t);
-    float LerpInverse(float a, float b, float v);
-    float Clamp(float min, float max, float v);
-    float CircularLerp(float a, float b, float t, float loop);
+    template <class T> Lerp T (T a, T b, T t);
+    template <class T> T LerpInverse(T a, T b, T v);
+    template <class T> T Clamp(T min, T max, T v);
+    template <class T> T CircularLerp(T a, T b, T t, T loop);
     const float PI = 3.14159265359;
 }

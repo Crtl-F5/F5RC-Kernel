@@ -1,25 +1,26 @@
+#pragma once
 #include <cstdlib>
 #include <Math>
 #include <MathExtensions.hpp>
 
 namespace MathExtensions
 {
-    float Lerp(float a, float b, float t)
+    template <class T> Lerp T (T a, T b, T t);
     {
         return a + t * (b - a);
     }
 
-    float LerpInverse(float a, float b, float v)
+    template <class T> T LerpInverse(T a, T b, T v)
     {
         return (v - a) / (b - a);
     }
 
-    float Clamp(float min, float max, float v)
+    template <class T> T Clamp(T min, T max, T v)
     {
         return (v > max) ? max : ((v < min) ? min : v);
     }
 
-    float CircularLerp(float a, float b, float t, float loop, ArcType arcType)
+    template <class T> T CircularLerp(T a, T b, T t, T loop)
     {
         if (!(arcType && abs(a - b) > abs(a - loop - b)))
         {
@@ -30,6 +31,12 @@ namespace MathExtensions
             return Lerp(a, b + loop, t) % loop;
         }
         
+    }
+
+    float GetInvalid()
+    {
+        long a = 0x7f800001;
+        return *((float*)&a);
     }
 
     const float Pi = 3.1415;
