@@ -38,4 +38,5 @@ class Robot : public frc::SampleRobot
   const std::string autoPathsDir = "/U/AutoPaths/";
   unsigned char* autoProgram;
   unsigned char* programMemory;
+  signed long* programStack;
 };

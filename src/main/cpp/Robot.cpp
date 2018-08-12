@@ -22,6 +22,7 @@
 
 Robot::Robot() 
 {
+  programStack = new signed long[16]; //Max call depth 16 NO RECURSION
   systemCount = 1;
   systems = new AutonomousSystem*[systemCount];
   systems[0] = new DifferentialDrive(&DistanceSensorLHS, &DistanceSensorRHS, &motorLHS, &motorRHS, 100);
@@ -30,7 +31,7 @@ Robot::Robot()
 void Robot::RobotInit()
 {
   bool first = true;
-  for (auto & path: fs::directory_iterator(autoPathsDir))
+  for (auto& path: fs::directory_iterator(autoPathsDir))
   {
     std::string name = path.data.filename().string();
     if (first) m_chooser.AddDefault(name, name);
@@ -71,6 +72,7 @@ inline template<class T> signed char cmp(T a, T b)
 
 void Robot::Autonomous() 
 {
+  int callStackDepth = 0;
   long index = 4; // Seek past header data
   long oldIndex;
   while (true)
@@ -638,7 +640,7 @@ void Robot::Autonomous()
         }
         oldIndex = index;
         index++;
-        a = fromUpperBits(autoProgram[oldIndex], index, autoProgram).getAbsoluteData(programMemory);
+        a = fromLowerBits(autoProgram[oldIndex], index, autoProgram).getAbsoluteData(programMemory);
         if (a.type == f) Wait(a.data.data.f);
         else std::cout << "Type mismatch at: " << oldIndex;
         break;
@@ -717,6 +719,27 @@ void Robot::Autonomous()
         b = fromUpperBits(autoProgram[oldIndex], index, autoProgram).getAbsoluteData(programMemory);
         if (a.isPointer && a.type == i) *((signed long*)programMemory + a.data.i) = &b.data;
         else std::cout << "Type mismatch at: " << oldIndex;
+        break;
+
+      case 28: //Call
+        if (autoProgram[index++] != 1)
+        {
+          cout << "Incorrect amount of arguments at: " << index - 1;
+          break;
+        }
+        oldIndex = index;
+        index++;
+        a = fromLowerBits(autoProgram[oldIndex], index, autoProgram).getAbsoluteData(programMemory);
+        if (a.type == i)
+        {
+         programStack[callStackDepth++] = index;
+         index = a.data.i;
+        }
+        else std::cout << "Type mismatch at: " << oldIndex;
+        break;
+
+      case 29: //Return
+        index = programStack[callStackDepth--];
         break;
 
       default:
