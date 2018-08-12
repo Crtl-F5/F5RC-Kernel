@@ -7,7 +7,7 @@ namespace AutonomousSystems
         public:
         virtual System(){}
         virtual ~System(){}
-        virtual void ReadCommand(unsigned char[] data, int* index);
+        virtual void ReadCommand(unsigned char[] data, long* index);
         virtual void Clear();
         virtual void Update() = 0;
         virtual short GetStatus() = 0;

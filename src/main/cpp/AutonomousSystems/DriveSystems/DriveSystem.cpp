@@ -14,7 +14,7 @@
 
 namespace AutonomousSystems::DriveSystems
 {
-    void DriveSystem::ReadCommand(unsigned char[] data, int* position) // Commands compiled from a human readable format
+    void DriveSystem::ReadCommand(unsigned char[] data, long* position) // Commands compiled from a human readable format
     {
         clock_t minDuration;
         memcpy(&minDuration, data + *position++, sizeof(clock_t));
