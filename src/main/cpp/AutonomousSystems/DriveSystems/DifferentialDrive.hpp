@@ -18,8 +18,8 @@ namespace AutonomousSystems::DriveSystems
         void BaseClear() override;
 
         private:
-        HardwareInterfaces::GenericNonBinarySensor* LHSEncoder;
-        HardwareInterfaces::GenericNonBinarySensor* RHSEncoder;
+        HardwareInterfaces::GenericNonBinarySensor* LHSSensor;
+        HardwareInterfaces::GenericNonBinarySensor* RHSSensor;
         float lastLHSDistance;
         float lastRHSDistance;
 
