@@ -7,68 +7,68 @@
 #include <algorithm>
 #include <ctgmath>
 #include <ctime>
+#include <ProgramType.hpp>
 
 #define None 0
 #define Arc 1
-#define Spline 1
+#define Spline 2
 
 namespace AutonomousSystems::DriveSystems
 {
-    void DriveSystem::ReadCommand(unsigned char[] data, long* position) // Commands compiled from a human readable format
+    void DriveSystem::ReadCommand(unsigned char* data, long* position, unsigned char* memory) //TODO: Add more validation
     {
         clock_t minDuration;
         memcpy(&minDuration, data + *position++, sizeof(clock_t));
         startTime = clock();
         earliestEndTime = startTime + minDuration;
+        long oldPosition = position;
+        bool lower = true;
 
-        switch (data[*(position)++]) // Path type
+        switch (fromBits(data[oldPosition], position, data, &lower).getAbsoluteData(memory).data.b) // Path type
         {
             case None:
                 path = nullptr;
                 break;
 
             case Arc:
-                path = new Arc();
-                memcpy(path, data + *position, sizeof(Arc));
-                (*position) += sizeof(Arc);
+                Vector2 c;
+                c.x = fromBits(data[oldPosition++], position, data, &lower).getAbsoluteData(memory).data.f;
+                c.y = fromBits(data[oldPosition], position, data, &lower).getAbsoluteData(memory).data.f;
+                path = new Arc(c, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f);
                 break;
         
             default: // Error handling, should the robot completely halt autonomous mode to prevent damage or log the error and attempt to continue
-                cout << data[*(position) - 1] << " is not a valid curve type code. Index: " << *(position) - 1;
+                cout << "Invalid function arguments at: " << *(position) - 1;
                 break;
         }
 
-        switch (data[*(position)++]) // SpeedMap type
+        switch (fromBits(data[oldPosition], position, data, &lower).getAbsoluteData(memory).data.b) // SpeedMap type
         {
             case None:
-                path = nullptr;
+                speedMap = nullptr;
                 break;
 
             case Spline:
-                path = new Spline();
-                memcpy(path, data + *position, sizeof(Spline));
-                (*position) += sizeof(Spline);
+                speedMap = new Spline(fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f);
                 break;
         
             default: // Error handling, should the robot completely halt autonomous mode to prevent damage or log the error and attempt to continue
-                cout << data[*(position) - 1] << " is not a valid function type code. Index: " << *(position) - 1;
+                cout << "Invalid function arguments at: " << *(position) - 1;
                 break;
         }
 
-        switch (data[*(position)++]) // HeadingMap type
+        switch (fromBits(data[oldPosition], position, data, &lower).getAbsoluteData(memory).data.b) // bearingMap type
         {
             case None:
-                path = nullptr;
+                bearingMap = nullptr;
                 break;
 
             case Spline:
-                path = new Spline();
-                memcpy(path, data + *position, sizeof(Spline));
-                (*position) += sizeof(Spline);
+                bearingMap = new Spline(fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f);
                 break;
         
             default: // Error handling, should the robot completely halt autonomous mode to prevent damage or log the error and attempt to continue
-                cout << data[*(position) - 1] << " is not a valid function type code. Index: " << *(position) - 1;
+                cout << "Invalid function arguments at: " << *(position) - 1;
                 break;
         }
     }

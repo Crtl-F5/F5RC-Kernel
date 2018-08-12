@@ -2,23 +2,32 @@
 #include <string.h>
 #define GetBit(i, n) (i >> n) & 1
 
-ProgramTypeData ProgramTypeData::getAbsoluteData(unsigned char* programMemory)
+ProgramTypeData ProgramType::getAbsoluteData(unsigned char* programMemory)
 {
-    ProgramTypeData ouput;
+    ProgramType ouput;
+    ouput.isPointer = isPointer;
     if (isPointer)
     {
         switch type
         {
-            case b: ouput.b = *((unsigned char*)programMemory + data.i); break;
-            case s: ouput.s = *((unsigned short*)programMemory + data.i);
-            case i: ouput.i = *((unsigned long*)programMemory + data.i);
-            case l: ouput.l = *((unsigned long long*)programMemory + data.i);
-            case f: ouput.f = *((float*)programMemory + data.i);
-            case d: ouput.d = *((double*)programMemory + data.i);
+            case b: ouput.data.b = *((unsigned char*)programMemory + data.i); break;
+            case s: ouput.data.s = *((unsigned short*)programMemory + data.i); break;
+            case i: ouput.data.i = *((unsigned long*)programMemory + data.i); break;
+            case l: ouput.data.l = *((unsigned long long*)programMemory + data.i); break;
+            case f: ouput.data.f = *((float*)programMemory + data.i); break;
+            case d: ouput.data.d = *((double*)programMemory + data.i); break;
         }
     }
-    else ouput = data;
+    else ouput.data = data;
+    output.type = type;
     return ouput;
+}
+
+ProgramType fromBits(unsigned char* typeData, long* index, unsigned char* data, bool* lower)
+{
+    *lower = !*lower;
+    if (lower) return fromUpperBits(*(typeData++), index, data);
+    return fromLowerBits(*typeData, index, data);
 }
 
 ProgramType fromLowerBits(unsigned char typeData, long* index, unsigned char* data)
