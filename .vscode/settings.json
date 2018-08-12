@@ -55,7 +55,23 @@
     "cctype": "cpp",
     "clocale": "cpp",
     "cwctype": "cpp",
-    "complex": "cpp"
+    "complex": "cpp",
+    "chrono": "cpp",
+    "codecvt": "cpp",
+    "ctime": "cpp",
+    "filesystem": "cpp",
+    "fstream": "cpp",
+    "iomanip": "cpp",
+    "list": "cpp",
+    "locale": "cpp",
+    "ratio": "cpp",
+    "sstream": "cpp",
+    "string_view": "cpp",
+    "vector": "cpp",
+    "xlocbuf": "cpp",
+    "xlocmes": "cpp",
+    "xlocmon": "cpp",
+    "xloctime": "cpp"
   },
   "cSpell.language": "en-GB"
 }

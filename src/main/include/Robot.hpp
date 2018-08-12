@@ -31,5 +31,11 @@ class Robot : public frc::SampleRobot
   HardwareInterfaces::GenericNonBinarySensor DistanceSensorLHS;
   HardwareInterfaces::GenericNonBinarySensor DistanceSensorRHS;
 
+  AutonomousSystem** systems;
+  int systemCount;
+
   frc::SendableChooser<std::string> m_chooser;
+  const std::string autoPathsDir = "/U/AutoPaths/";
+  unsigned char* autoProgram;
+  unsigned char* programMemory;
 };
