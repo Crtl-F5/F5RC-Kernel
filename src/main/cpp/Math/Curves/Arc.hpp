@@ -7,6 +7,7 @@ namespace MathExtensions::Curves
     {
         public:
         Arc(MathExtensions::Vector2 centre, float radius, float startAngle, float endAngle);
+        Arc::Arc(float centreX, float centreY, float radius, float startAngle, float endAngle);
         MathExtensions::Vector2 getValue(float t);
         float getValueInverse(MathExtensions::Vector2 point);
         float getDerivative(float t);

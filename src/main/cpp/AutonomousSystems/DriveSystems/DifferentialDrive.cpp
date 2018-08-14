@@ -11,9 +11,15 @@ namespace AutonomousSystems::DriveSystems
         HardwareInterfaces::GenericNonBinarySensor* RHSSensor,
         HardwareInterfaces::GenericMotor* motorLHS,
         HardwareInterfaces::GenericMotor* motorRHS,
-        float wheelSpacing
+        float wheelSpacing,
+        float completionTolerance, 
+        PIDController devianceCorrectionController, 
+        PIDController speedController, 
+        PIDController headingController,
+        PIDController bearingController
     )
     {
+        DriveSystem(completionTolerance, devianceCorrectionController, speedController, headingController, bearingController);
         this.LHSSensor = LHSSensor;
         this.RHSSensor = RHSSensor;
         this.lastLHSDistance = 0;
@@ -21,6 +27,14 @@ namespace AutonomousSystems::DriveSystems
         this.motorLHS = motorLHS;
         this.motorRHS = motorRHS;
         this.wheelSpacing = wheelSpacing;
+    }
+
+    DifferentialDrive::~DifferentialDrive()
+    {
+        delete LHSSensor;
+        delete RHSSensor;
+        delete motorLHS;
+        delete motorRHS;
     }
 
     void DifferentialDrive::BaseUpdate(float basePower, float headingPower, float bearingPower)

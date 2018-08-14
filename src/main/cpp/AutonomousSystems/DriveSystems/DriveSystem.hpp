@@ -10,7 +10,8 @@ namespace AutonomousSystems::DriveSystems
     class DriveSystem : AutonomousSystem
     {
         public:
-        void ReadCommand(unsigned char[] data, int* index) override;
+        DriveSystem(float completionTolerance, PIDController devianceCorrectionController, PIDController speedController, PIDController headingController, PIDController bearingController);
+        void Rebuild(Curve* path, Function* speedMap, Function* bearingMap, long minCompletionTime);
         void Clear() override;
         void Update() override;
         short GetStatus() override;

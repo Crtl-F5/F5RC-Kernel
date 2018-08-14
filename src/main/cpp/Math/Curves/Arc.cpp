@@ -10,10 +10,19 @@ namespace Curves::MathExtensions
 
     Arc::Arc(Math::Vector2 centre, float radius, float startAngle, float endAngle)
     {
-        this->centre = centre;
-        this->radius = radius;
-        this->startAngle = startAngle;
-        this->endAngle = endAngle;
+        this.centre = centre;
+        this.radius = radius;
+        this.startAngle = startAngle;
+        this.endAngle = endAngle;
+    }
+
+    Arc::Arc(float centreX, float centreY, float radius, float startAngle, float endAngle)
+    {
+        this.centre.x = centreX;
+        this.centre.y = centreY;
+        this.radius = radius;
+        this.startAngle = startAngle;
+        this.endAngle = endAngle;
     }
 
     Math::Vector2 Arc::getValue(float t)

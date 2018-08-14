@@ -12,7 +12,19 @@ namespace AutonomousSystems::DriveSystems
     class DifferentialDrive : public DriveSystem
     {
         public:
-        DifferentialDrive();
+        DifferentialDrive
+        (
+            HardwareInterfaces::GenericNonBinarySensor* LHSSensor,
+            HardwareInterfaces::GenericNonBinarySensor* RHSSensor,
+            HardwareInterfaces::GenericMotor* motorLHS,
+            HardwareInterfaces::GenericMotor* motorRHS,
+            float wheelSpacing,
+            float completionTolerance, 
+            PIDController devianceCorrectionController, 
+            PIDController speedController, 
+            PIDController headingController,
+            PIDController bearingController
+        );
         ~DifferentialDrive();
         void BaseUpdate(float basePower, float headingPower, float bearingPower) override;
         void BaseClear() override;

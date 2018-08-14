@@ -5,7 +5,7 @@ namespace MathExtensions
     class PIDController
     {
         public:
-        PIDController(float P, float I, float D);
+        PIDController(float P, float I, float D, float loopLength);
         float Update(float value);
 
         float target;

@@ -23,20 +23,18 @@ class Robot : public frc::SampleRobot
   void Autonomous() override;
   void OperatorControl() override;
   void Test() override;
+  void Exec();
 
   private:
-  HardwareInterfaces::GenericMotor MotorLHS;
-  HardwareInterfaces::GenericMotor MotorRHS;
+  LinkedListNode<AutonomousSystem> systems;
 
-  HardwareInterfaces::GenericNonBinarySensor DistanceSensorLHS;
-  HardwareInterfaces::GenericNonBinarySensor DistanceSensorRHS;
-
-  AutonomousSystem** systems;
-  int systemCount;
-
-  frc::SendableChooser<std::string> m_chooser;
-  const std::string autoPathsDir = "/U/AutoPaths/";
+  frc::SendableChooser<std::string> initChooser;
+  frc::SendableChooser<std::string> autoChooser;
+  frc::SendableChooser<std::string> teleopChooser;
+  const std::string initDir = "/U/Init/";
+  const std::string autoDir = "/U/Auto/";
+  const std::string teleopDir = "/U/Teleop/";
+  unsigned char* initProgram;
   unsigned char* autoProgram;
-  unsigned char* programMemory;
-  signed long* programStack;
+  unsigned char* teleopProgram;
 };

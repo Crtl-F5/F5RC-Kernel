@@ -15,62 +15,22 @@
 
 namespace AutonomousSystems::DriveSystems
 {
-    void DriveSystem::ReadCommand(unsigned char* data, long* position, unsigned char* memory) //TODO: Add more validation
+    DriveSystem::DriveSystem(float completionTolerance, PIDController devianceCorrectionController, PIDController speedController, PIDController headingController, PIDController bearingController)
     {
-        clock_t minDuration;
-        memcpy(&minDuration, data + *position++, sizeof(clock_t));
+        this.completionTolerance = completionTolerance;
+        this.devianceCorrectionController = devianceCorrectionController;
+        this.speedController = speedController;
+        this.headingController = headingController;
+        this.bearingController = bearingController;
+    }
+
+    void DriveSystem::Rebuild(Curve* path, Function* speedMap, Function* bearingMap, long minCompetionTime)
+    {
+        this.path = path;
+        this.speedMap = speedMap;
+        this.bearingMap = bearingMap;
         startTime = clock();
-        earliestEndTime = startTime + minDuration;
-        long oldPosition = position;
-        bool lower = true;
-
-        switch (fromBits(data[oldPosition], position, data, &lower).getAbsoluteData(memory).data.b) // Path type
-        {
-            case None:
-                path = nullptr;
-                break;
-
-            case Arc:
-                Vector2 c;
-                c.x = fromBits(data[oldPosition++], position, data, &lower).getAbsoluteData(memory).data.f;
-                c.y = fromBits(data[oldPosition], position, data, &lower).getAbsoluteData(memory).data.f;
-                path = new Arc(c, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f);
-                break;
-        
-            default: // Error handling, should the robot completely halt autonomous mode to prevent damage or log the error and attempt to continue
-                cout << "Invalid function arguments at: " << *(position) - 1;
-                break;
-        }
-
-        switch (fromBits(data[oldPosition], position, data, &lower).getAbsoluteData(memory).data.b) // SpeedMap type
-        {
-            case None:
-                speedMap = nullptr;
-                break;
-
-            case Spline:
-                speedMap = new Spline(fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f);
-                break;
-        
-            default: // Error handling, should the robot completely halt autonomous mode to prevent damage or log the error and attempt to continue
-                cout << "Invalid function arguments at: " << *(position) - 1;
-                break;
-        }
-
-        switch (fromBits(data[oldPosition], position, data, &lower).getAbsoluteData(memory).data.b) // bearingMap type
-        {
-            case None:
-                bearingMap = nullptr;
-                break;
-
-            case Spline:
-                bearingMap = new Spline(fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f, fromBits(data[oldPosition++], position, data, &lower).data.f);
-                break;
-        
-            default: // Error handling, should the robot completely halt autonomous mode to prevent damage or log the error and attempt to continue
-                cout << "Invalid function arguments at: " << *(position) - 1;
-                break;
-        }
+        earliestEndTime = startTime + minCompetionTime;
     }
 
     void DriveSystem::Clear()

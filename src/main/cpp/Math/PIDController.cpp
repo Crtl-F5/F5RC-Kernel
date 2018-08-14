@@ -4,11 +4,12 @@
 
 namespace MathExtensions
 {
-    PIDController::PIDController()
+    PIDController::PIDController(float P, float I, float D, float loopLength)
     {
         this.P = P;
         this.I = I;
         this.D = D;
+        this.loopLength = loopLength;
         this.integral = 0;
         this.lastValue = 0;
         this.target = 0;
