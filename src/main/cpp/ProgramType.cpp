@@ -23,14 +23,14 @@ ProgramTypeData ProgramType::getAbsoluteData(unsigned char* programMemory)
     return ouput;
 }
 
-ProgramType fromBits(unsigned char* typeData, long* index, unsigned char* data, bool* lower)
+ProgramType fromBits(unsigned char* typeData, long& index, unsigned char* data, bool& lower)
 {
-    *lower = !*lower;
+    lower = !lower;
     if (lower) return fromUpperBits(*(typeData++), index, data);
     return fromLowerBits(*typeData, index, data);
 }
 
-ProgramType fromLowerBits(unsigned char typeData, long* index, unsigned char* data)
+ProgramType fromLowerBits(unsigned char typeData, long& index, unsigned char* data)
 {
     ProgramType output;
     output.isPointer = GetBit(typeData, 0);
@@ -45,8 +45,8 @@ ProgramType fromLowerBits(unsigned char typeData, long* index, unsigned char* da
             case 4: ouput.type = f; break;
             case 5: ouput.type = d; break;
         }
-        memcpy(&ouput.data.i, data[*index], 4);
-        (*index) += 4;
+        memcpy(&ouput.data.i, data[index], 4);
+        (index) += 4;
     }
 
     else
@@ -55,43 +55,43 @@ ProgramType fromLowerBits(unsigned char typeData, long* index, unsigned char* da
         {
             case 0:
                 ouput.type = b;
-                ouput.data.b = data[(*index)++];
+                ouput.data.b = data[(index)++];
                 break;
 
             case 1:
                 output.type = s;
-                memcpy(&ouput.data.s, data[*index], 2);
-                (*index) += 2;
+                memcpy(&ouput.data.s, data[index], 2);
+                (index) += 2;
                 break;
 
             case 2:
                 output.type = i;
-                memcpy(&ouput.data.i, data[*index], 4);
-                (*index) += 4;
+                memcpy(&ouput.data.i, data[index], 4);
+                (index) += 4;
                 break;
 
             case 3:
                 output.type = l;
-                memcpy(&ouput.data.l, data[*index], 8);
-                (*index) += 8;
+                memcpy(&ouput.data.l, data[index], 8);
+                (index) += 8;
                 break;
 
             case 4:
                 output.type = f;
-                memcpy(&ouput.data.f, data[*index], 4)
-                (*index) += 4;
+                memcpy(&ouput.data.f, data[index], 4)
+                (index) += 4;
                 break;
 
             case 5:
                 output.type = d;
-                memcpy(&ouput.data.d, data[*index], 8)
-                (*index) += 8;
+                memcpy(&ouput.data.d, data[index], 8)
+                (index) += 8;
                 break;
         }
     }
 }
 
-ProgramType fromUpperBits(unsigned char typeData, long* index, unsigned char* data)
+ProgramType fromUpperBits(unsigned char typeData, long& index, unsigned char* data)
 {
     ProgramType output;
     output.isPointer = GetBit(typeData, 4);
@@ -106,8 +106,8 @@ ProgramType fromUpperBits(unsigned char typeData, long* index, unsigned char* da
             case 4: ouput.type = f; break;
             case 5: ouput.type = d; break;
         }
-        memcpy(&ouput.data.i, data[*index], 4);
-        (*index) += 4;
+        memcpy(&ouput.data.i, data[index], 4);
+        (index) += 4;
     }
 
     else
@@ -116,37 +116,37 @@ ProgramType fromUpperBits(unsigned char typeData, long* index, unsigned char* da
         {
             case 0:
                 ouput.type = b;
-                ouput.data.b = data[(*index)++];
+                ouput.data.b = data[(index)++];
                 break;
 
             case 1:
                 output.type = s;
                 memcpy(&ouput.data.s, data[*index], 2);
-                (*index) += 2;
+                (index) += 2;
                 break;
 
             case 2:
                 output.type = i;
-                memcpy(&ouput.data.i, data[*index], 4);
-                (*index) += 4;
+                memcpy(&ouput.data.i, data[index], 4);
+                (index) += 4;
                 break;
 
             case 3:
                 output.type = l;
-                memcpy(&ouput.data.l, data[*index], 8);
-                (*index) += 8;
+                memcpy(&ouput.data.l, data[index], 8);
+                (index) += 8;
                 break;
 
             case 4:
                 output.type = f;
-                memcpy(&ouput.data.f, data[*index], 4)
-                (*index) += 4;
+                memcpy(&ouput.data.f, data[index], 4)
+                (index) += 4;
                 break;
 
             case 5:
                 output.type = d;
-                memcpy(&ouput.data.d, data[*index], 8)
-                (*index) += 8;
+                memcpy(&ouput.data.d, data[index], 8)
+                (index) += 8;
                 break;
         }
     }
